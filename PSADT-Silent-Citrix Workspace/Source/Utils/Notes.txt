@@ -1,0 +1,25 @@
+App Script 
+Clear-Host
+$Hive = Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
+$Hive2 = Get-ChildItem -Path HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall
+Write-Host -ForegroundColor Green "x64 Registry Hive - HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall "
+$Hive | Get-ItemProperty | Select-Object -Property PSChildName, DisplayName, DisplayVersion, UninstallString | Sort-Object DisplayName | Format-Table -AutoSize -Wrap
+Write-Host -ForegroundColor Cyan "x86 Registry Hive - HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+$Hive2 | Get-ItemProperty | Select-Object -Property PSChildName, DisplayName, DisplayVersion, UninstallString | Sort-Object DisplayName | Format-Table -AutoSize -Wrap
+
+
+Reg Location HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
+
+Rule Type Registry 
+Key Path HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\7Zip
+Value Name: DisplayVersion
+Detection Method: Version Comparison 
+Operator: Greater than or Equal to
+Value : Set Value --- 
+Associated with a 32bit App on 64 Bit clients - NO
+
+
+install: Deploy-Application.ps1 -DeploymentType Install 
+Uninstall: Deploy-Application.ps1 -DeploymentType Uninstall
+Install Behaviour: System
+

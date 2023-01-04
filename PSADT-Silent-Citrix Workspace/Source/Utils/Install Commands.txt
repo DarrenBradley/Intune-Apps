@@ -1,0 +1,2 @@
+Install command: Deploy-Application.exe
+Uninstall command: Deploy-Application.exe -Deploymentype Uninstall
